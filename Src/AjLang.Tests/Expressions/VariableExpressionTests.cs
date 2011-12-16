@@ -12,20 +12,20 @@ namespace AjLang.Tests.Expressions
         [TestMethod]
         public void EvaluateUndefinedVariable()
         {
-            Environment environment = new Environment();
+            Context context = new Context();
             VariableExpression expr = new VariableExpression("Foo");
 
-            Assert.IsNull(expr.Evaluate(environment));
+            Assert.IsNull(expr.Evaluate(context));
         }
 
         [TestMethod]
         public void EvaluateDefinedVariable()
         {
-            Environment environment = new Environment();
-            environment.SetValue("One", 1);
+            Context context = new Context();
+            context.SetValue("One", 1);
             VariableExpression expr = new VariableExpression("One");
 
-            Assert.AreEqual(1, expr.Evaluate(environment));
+            Assert.AreEqual(1, expr.Evaluate(context));
         }
     }
 }

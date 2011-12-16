@@ -1,5 +1,6 @@
 ﻿namespace AjLang.Expressions
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
@@ -13,9 +14,9 @@
             this.name = name;
         }
 
-        public object Evaluate(Environment environment)
+        public object Evaluate(Context context)
         {
-            return environment.GetValue(this.name);
+            return context.GetValue(this.name);
         }
     }
 }

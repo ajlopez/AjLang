@@ -7,19 +7,19 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AjLang.Tests
 {
     [TestClass]
-    public class EnvironmentTests
+    public class ContextTests
     {
         [TestMethod]
         public void GetUndefinedValue()
         {
-            Environment environment = new Environment();
+            Context environment = new Context();
             Assert.IsNull(environment.GetValue("Foo"));
         }
 
         [TestMethod]
         public void SetAndGetValue()
         {
-            Environment environment = new Environment();
+            Context environment = new Context();
             environment.SetValue("One", 1);
             Assert.AreEqual(1, environment.GetValue("One"));
         }
