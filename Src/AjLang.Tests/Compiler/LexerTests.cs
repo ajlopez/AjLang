@@ -22,5 +22,18 @@ namespace AjLang.Tests.Compiler
 
             Assert.IsNull(lexer.NextToken());
         }
+
+        [TestMethod]
+        public void GetNameWithSpaces()
+        {
+            Lexer lexer = new Lexer("  foo   ");
+            Token token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual("foo", token.Value);
+            Assert.AreEqual(TokenType.Name, token.Type);
+
+            Assert.IsNull(lexer.NextToken());
+        }
     }
 }
