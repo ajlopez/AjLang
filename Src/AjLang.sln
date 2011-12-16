@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AjLang", "AjLang\AjLang.csproj", "{8A50488D-C9D4-4F36-9DB1-66BCE766C873}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AjLang.Tests", "AjLang.Tests\AjLang.Tests.csproj", "{49365161-541C-40C3-A104-8C7A1A22EF11}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5A5D6BFA-78EF-41DE-AF37-1C7418E853E7}"
+	ProjectSection(SolutionItems) = preProject
+		AjLang.vsmdi = AjLang.vsmdi
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = AjLang.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8A50488D-C9D4-4F36-9DB1-66BCE766C873}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A50488D-C9D4-4F36-9DB1-66BCE766C873}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A50488D-C9D4-4F36-9DB1-66BCE766C873}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A50488D-C9D4-4F36-9DB1-66BCE766C873}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49365161-541C-40C3-A104-8C7A1A22EF11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49365161-541C-40C3-A104-8C7A1A22EF11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49365161-541C-40C3-A104-8C7A1A22EF11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49365161-541C-40C3-A104-8C7A1A22EF11}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
