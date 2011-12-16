@@ -15,7 +15,7 @@ namespace AjLang.Tests.Expressions
         {
             ConstantExpression expr = new ConstantExpression(1);
 
-            Assert.AreEqual(1, expr.Evaluate());
+            Assert.AreEqual(1, expr.Evaluate(null));
         }
     }
 }

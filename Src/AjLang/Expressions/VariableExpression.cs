@@ -4,18 +4,19 @@
     using System.Linq;
     using System.Text;
 
-    public class ConstantExpression
+    public class VariableExpression
     {
-        private object value;
+        private string name;
 
-        public ConstantExpression(object value)
+        public VariableExpression(string name)
         {
-            this.value = value;
+            this.name = name;
         }
 
         public object Evaluate(Environment environment)
         {
-            return this.value;
+            return environment.GetValue(this.name);
         }
     }
 }
+
