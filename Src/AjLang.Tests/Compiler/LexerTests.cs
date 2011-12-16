@@ -35,5 +35,18 @@ namespace AjLang.Tests.Compiler
 
             Assert.IsNull(lexer.NextToken());
         }
+
+        [TestMethod]
+        public void GetSimpleAssignmentOperator()
+        {
+            Lexer lexer = new Lexer("=");
+            Token token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual("=", token.Value);
+            Assert.AreEqual(TokenType.Operator, token.Type);
+
+            Assert.IsNull(lexer.NextToken());
+        }
     }
 }

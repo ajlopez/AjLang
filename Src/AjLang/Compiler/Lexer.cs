@@ -8,6 +8,8 @@
 
     public class Lexer
     {
+        private static string[] operators = { "=" };
+
         private TextReader reader;
 
         public Lexer(string text)
@@ -31,6 +33,11 @@
                 return null;
 
             string value = "" + ((char)ich);
+
+            if (operators.Contains(value))
+            {
+                return new Token(value, TokenType.Operator);
+            }
 
             for (ich = this.reader.Read(); ich != -1 && char.IsLetterOrDigit((char)ich); ich = this.reader.Read())
                 value += (char)ich;
