@@ -45,9 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\SetVariableCommand.cs" />
+    <Compile Include="Compiler\ParserException.cs" />
     <Compile Include="Compiler\Lexer.cs" />
     <Compile Include="Compiler\LexerException.cs" />
+    <Compile Include="Compiler\Parser.cs" />
     <Compile Include="Compiler\Token.cs" />
     <Compile Include="Compiler\TokenType.cs" />
     <Compile Include="Context.cs" />

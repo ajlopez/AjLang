@@ -7,7 +7,7 @@
 
     using AjLang.Expressions;
 
-    public class SetVariableCommand
+    public class SetVariableCommand : ICommand
     {
         private string name;
         private IExpression expression;
