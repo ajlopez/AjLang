@@ -22,3 +22,4 @@ namespace AjLang.Tests.Commands
         }
     }
 }
+
