@@ -14,6 +14,8 @@
             this.name = name;
         }
 
+        public string Name { get { return this.name; } }
+
         public object Evaluate(Context context)
         {
             return context.GetValue(this.name);

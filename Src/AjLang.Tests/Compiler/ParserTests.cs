@@ -26,5 +26,21 @@ namespace AjLang.Tests.Compiler
 
             Assert.IsNull(parser.ParseExpression());
         }
+
+        [TestMethod]
+        public void ParseVariable()
+        {
+            Parser parser = new Parser("foo");
+            IExpression expr = parser.ParseExpression();
+
+            Assert.IsNotNull(expr);
+            Assert.IsInstanceOfType(expr, typeof(VariableExpression));
+
+            VariableExpression vexpr = (VariableExpression)expr;
+
+            Assert.AreEqual("foo", vexpr.Name);
+
+            Assert.IsNull(parser.ParseExpression());
+        }
     }
 }
