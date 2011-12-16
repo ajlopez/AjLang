@@ -55,6 +55,13 @@ namespace AjLang.Tests.Compiler
 
             SetVariableCommand scommand = (SetVariableCommand)command;
 
+            Assert.AreEqual("a", scommand.Name);
+            Assert.IsInstanceOfType(scommand.Expression, typeof(ConstantExpression));
+
+            ConstantExpression cexpr = (ConstantExpression)scommand.Expression;
+
+            Assert.AreEqual(1, cexpr.Value);
+
             Assert.IsNull(parser.ParseCommand());
         }
     }

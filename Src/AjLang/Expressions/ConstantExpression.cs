@@ -14,6 +14,8 @@
             this.value = value;
         }
 
+        public object Value { get { return this.value; } }
+
         public object Evaluate(Context context)
         {
             return this.value;
