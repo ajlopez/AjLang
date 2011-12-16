@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
 
-    public class VariableExpression
+    public class VariableExpression : IExpression
     {
         private string name;
 
