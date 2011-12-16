@@ -89,6 +89,42 @@ namespace AjLang.Tests.Compiler
         }
 
         [TestMethod]
+        public void GetNewLineAsEndOfLine()
+        {
+            Lexer lexer = new Lexer("\n");
+            Token token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(TokenType.EndOfLine, token.Type);
+
+            Assert.IsNull(lexer.NextToken());
+        }
+
+        [TestMethod]
+        public void GetCarriageReturnNewLineAsEndOfLine()
+        {
+            Lexer lexer = new Lexer("\r\n");
+            Token token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(TokenType.EndOfLine, token.Type);
+
+            Assert.IsNull(lexer.NextToken());
+        }
+
+        [TestMethod]
+        public void GetNewLineCarriageReturnAsEndOfLine()
+        {
+            Lexer lexer = new Lexer("\n\r");
+            Token token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(TokenType.EndOfLine, token.Type);
+
+            Assert.IsNull(lexer.NextToken());
+        }
+
+        [TestMethod]
         public void GetSimpleAssignmentCommand()
         {
             Lexer lexer = new Lexer("a=123");

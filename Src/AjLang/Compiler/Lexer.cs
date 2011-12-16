@@ -30,7 +30,12 @@
             int ich = this.NextChar();
 
             while (ich != -1 && char.IsWhiteSpace((char)ich))
+            {
+                if (((char)ich) == '\n')
+                    return new Token("\n", TokenType.EndOfLine);
+
                 ich = this.NextChar();
+            }
 
             if (ich == -1)
                 return null;
