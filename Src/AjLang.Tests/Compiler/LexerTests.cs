@@ -76,6 +76,19 @@ namespace AjLang.Tests.Compiler
         }
 
         [TestMethod]
+        public void GetEndOfCommand()
+        {
+            Lexer lexer = new Lexer(";");
+            Token token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(";", token.Value);
+            Assert.AreEqual(TokenType.Separator, token.Type);
+
+            Assert.IsNull(lexer.NextToken());
+        }
+
+        [TestMethod]
         public void GetSimpleAssignmentCommand()
         {
             Lexer lexer = new Lexer("a=123");

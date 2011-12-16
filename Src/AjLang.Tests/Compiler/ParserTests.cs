@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AjLang.Compiler;
 using AjLang.Expressions;
+using AjLang.Commands;
 
 namespace AjLang.Tests.Compiler
 {
@@ -41,6 +42,20 @@ namespace AjLang.Tests.Compiler
             Assert.AreEqual("foo", vexpr.Name);
 
             Assert.IsNull(parser.ParseExpression());
+        }
+
+        [TestMethod]
+        public void ParseSimpleAssignmentCommand()
+        {
+            Parser parser = new Parser("a=1");
+            ICommand command = parser.ParseCommand();
+
+            Assert.IsNotNull(command);
+            Assert.IsInstanceOfType(command, typeof(SetVariableCommand));
+
+            SetVariableCommand scommand = (SetVariableCommand)command;
+
+            Assert.IsNull(parser.ParseCommand());
         }
     }
 }

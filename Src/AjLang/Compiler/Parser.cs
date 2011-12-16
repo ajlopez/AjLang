@@ -6,6 +6,7 @@
     using System.Text;
     using AjLang.Expressions;
     using System.Globalization;
+    using AjLang.Commands;
 
     public class Parser
     {
@@ -35,6 +36,43 @@
                 case TokenType.Name:
                     return new VariableExpression(token.Value);
             }
+
+            throw new ParserException(string.Format("Unexpected '{0}'", token.Value));
+        }
+
+        public ICommand ParseCommand()
+        {
+            IExpression expression = this.ParseExpression();
+
+            if (expression == null)
+                return null;
+
+            Token token = this.NextToken();
+
+            if (expression is VariableExpression && token.Type == TokenType.Operator && token.Value == "=")
+            {
+                string name = ((VariableExpression)expression).Name;
+                IExpression expr = this.ParseExpression();
+                this.ParseEndOfCommand();
+
+                return new SetVariableCommand(name, expr);
+            }
+
+            throw new ParserException("Error in Parser");
+        }
+
+        private void ParseEndOfCommand()
+        {
+            Token token = this.NextToken();
+
+            if (token == null)
+                return;
+
+            if (token.Type == TokenType.Separator && token.Value == ";")
+                return;
+
+            if (token.Type == TokenType.EndOfLine)
+                return;
 
             throw new ParserException(string.Format("Unexpected '{0}'", token.Value));
         }

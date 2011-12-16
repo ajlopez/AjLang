@@ -9,6 +9,8 @@
     public class Lexer
     {
         private static string[] operators = { "=", "==" };
+        private static string separators = ";";
+
         private Stack<int> characters = new Stack<int>();
 
         private TextReader reader;
@@ -40,6 +42,9 @@
 
             if (char.IsDigit(ch))
                 return this.NextInteger(ch);
+
+            if (separators.Contains(ch))
+                return new Token(ch.ToString(), TokenType.Separator);
 
             if (operators.Any(op => op[0] == ch))
                 return this.NextOperator(ch);
