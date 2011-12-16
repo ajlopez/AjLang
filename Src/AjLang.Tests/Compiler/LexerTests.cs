@@ -61,5 +61,18 @@ namespace AjLang.Tests.Compiler
 
             Assert.IsNull(lexer.NextToken());
         }
+
+        [TestMethod]
+        public void GetInteger()
+        {
+            Lexer lexer = new Lexer("123");
+            Token token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual("123", token.Value);
+            Assert.AreEqual(TokenType.Integer, token.Type);
+
+            Assert.IsNull(lexer.NextToken());
+        }
     }
 }

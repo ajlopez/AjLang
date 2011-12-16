@@ -38,6 +38,9 @@
             if (char.IsLetter(ch))
                 return this.NextName(ch);
 
+            if (char.IsDigit(ch))
+                return this.NextInteger(ch);
+
             if (operators.Any(op => op[0] == ch))
                 return this.NextOperator(ch);
 
@@ -53,6 +56,17 @@
                 value += (char)ich;
 
             return new Token(value, TokenType.Name);
+        }
+
+        private Token NextInteger(char ch)
+        {
+            string value = ch.ToString();
+            int ich;
+
+            for (ich = this.NextChar(); ich != -1 && char.IsDigit((char)ich); ich = this.reader.Read())
+                value += (char)ich;
+
+            return new Token(value, TokenType.Integer);
         }
 
         private Token NextOperator(char ch)

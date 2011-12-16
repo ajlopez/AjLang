@@ -8,6 +8,7 @@
     public enum TokenType
     {
         Name = 0,
-        Operator = 1
+        Integer = 1,
+        Operator = 2
     }
 }
