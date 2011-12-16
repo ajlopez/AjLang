@@ -55,6 +55,9 @@
             for (ich = this.NextChar(); ich != -1 && char.IsLetterOrDigit((char)ich); ich = this.reader.Read())
                 value += (char)ich;
 
+            if (ich != -1)
+                this.PushChar(ich);
+
             return new Token(value, TokenType.Name);
         }
 
@@ -65,6 +68,9 @@
 
             for (ich = this.NextChar(); ich != -1 && char.IsDigit((char)ich); ich = this.reader.Read())
                 value += (char)ich;
+
+            if (ich != -1)
+                this.PushChar(ich);
 
             return new Token(value, TokenType.Integer);
         }
