@@ -42,6 +42,9 @@
 
             char ch = (char)ich;
 
+            if (ch == '"')
+                return this.NextString();
+
             if (char.IsLetter(ch))
                 return this.NextName(ch);
 
@@ -69,6 +72,20 @@
                 this.PushChar(ich);
 
             return new Token(value, TokenType.Name);
+        }
+
+        private Token NextString()
+        {
+            string value = "";
+            int ich;
+
+            for (ich = this.NextChar(); ich != -1 && ((char)ich) != '"'; ich = this.reader.Read())
+                value += (char)ich;
+
+            if (ich == -1)
+                throw new LexerException("Unclosed String");
+
+            return new Token(value, TokenType.String);
         }
 
         private Token NextInteger(char ch)
