@@ -77,6 +77,20 @@ namespace AjLang.Tests.Compiler
         }
 
         [TestMethod]
+        public void ParseSimpleCallAsCommand()
+        {
+            Parser parser = new Parser("puts 1");
+            ICommand cmd = parser.ParseCommand();
+
+            Assert.IsNotNull(cmd);
+            Assert.IsInstanceOfType(cmd, typeof(ExpressionCommand));
+
+            ExpressionCommand ccmd = (ExpressionCommand) cmd;
+
+            Assert.IsInstanceOfType(ccmd.Expression, typeof(CallExpression));
+        }
+
+        [TestMethod]
         public void ParseSimpleAssignmentCommand()
         {
             Parser parser = new Parser("a=1");

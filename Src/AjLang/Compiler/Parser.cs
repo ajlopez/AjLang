@@ -65,6 +65,9 @@
 
             Token token = this.NextToken();
 
+            if (token == null || token.Type == TokenType.EndOfLine || (token.Type == TokenType.Separator && token.Value == ";"))
+                return new ExpressionCommand(expression);
+
             if (expression is VariableExpression && token.Type == TokenType.Operator && token.Value == "=")
             {
                 string name = ((VariableExpression)expression).Name;
