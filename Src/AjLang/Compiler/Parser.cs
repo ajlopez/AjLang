@@ -35,6 +35,8 @@
                     return new ConstantExpression(int.Parse(token.Value, CultureInfo.InvariantCulture));
                 case TokenType.Name:
                     return new VariableExpression(token.Value);
+                case TokenType.String:
+                    return new ConstantExpression(token.Value);
             }
 
             throw new ParserException(string.Format("Unexpected '{0}'", token.Value));

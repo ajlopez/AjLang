@@ -29,6 +29,22 @@ namespace AjLang.Tests.Compiler
         }
 
         [TestMethod]
+        public void ParseSimpleString()
+        {
+            Parser parser = new Parser("\"foo\"");
+            IExpression expr = parser.ParseExpression();
+
+            Assert.IsNotNull(expr);
+            Assert.IsInstanceOfType(expr, typeof(ConstantExpression));
+
+            ConstantExpression cexpr = (ConstantExpression)expr;
+
+            Assert.AreEqual("foo", cexpr.Evaluate(null));
+
+            Assert.IsNull(parser.ParseExpression());
+        }
+
+        [TestMethod]
         public void ParseVariable()
         {
             Parser parser = new Parser("foo");
