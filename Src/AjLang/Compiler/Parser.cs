@@ -11,6 +11,7 @@
     public class Parser
     {
         private Lexer lexer;
+        private Stack<Token> tokens = new Stack<Token>();
 
         public Parser(string text)
             : this(new Lexer(text))
@@ -34,7 +35,20 @@
                 case TokenType.Integer:
                     return new ConstantExpression(int.Parse(token.Value, CultureInfo.InvariantCulture));
                 case TokenType.Name:
-                    return new VariableExpression(token.Value);
+                    IExpression expr = new VariableExpression(token.Value);
+                    token = this.NextToken();
+
+                    if (token != null && token.Type != TokenType.Separator && token.Type != TokenType.Operator && token.Type != TokenType.EndOfLine)
+                    {
+                        this.PushToken(token);
+                        return new CallExpression(expr, new IExpression[] { this.ParseExpression() });
+                    }
+
+                    if (token != null)
+                        this.PushToken(token);
+
+                    return expr;
+
                 case TokenType.String:
                     return new ConstantExpression(token.Value);
             }
@@ -81,7 +95,15 @@
 
         private Token NextToken()
         {
+            if (this.tokens.Count>0)
+                return this.tokens.Pop();
+
             return this.lexer.NextToken();
+        }
+
+        private void PushToken(Token token)
+        {
+            this.tokens.Push(token);
         }
     }
 }
