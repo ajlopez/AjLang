@@ -18,7 +18,7 @@ namespace AjLang.Console
             Parser parser = new Parser(lexer);
 
             for (ICommand cmd = parser.ParseCommand(); cmd != null; cmd = parser.ParseCommand())
-                ;
+                cmd.Execute(context);
         }
     }
 }

@@ -91,6 +91,31 @@ namespace AjLang.Tests.Compiler
         }
 
         [TestMethod]
+        public void ParseTwoSimpleCallsAsCommands()
+        {
+            Parser parser = new Parser("puts 1\r\nputs 2\r\n");
+            ICommand cmd = parser.ParseCommand();
+
+            Assert.IsNotNull(cmd);
+            Assert.IsInstanceOfType(cmd, typeof(ExpressionCommand));
+
+            ExpressionCommand ccmd = (ExpressionCommand)cmd;
+
+            Assert.IsInstanceOfType(ccmd.Expression, typeof(CallExpression));
+
+            cmd = parser.ParseCommand();
+
+            Assert.IsNotNull(cmd);
+            Assert.IsInstanceOfType(cmd, typeof(ExpressionCommand));
+
+            ccmd = (ExpressionCommand)cmd;
+
+            Assert.IsInstanceOfType(ccmd.Expression, typeof(CallExpression));
+
+            Assert.IsNull(parser.ParseCommand());
+        }
+
+        [TestMethod]
         public void ParseSimpleAssignmentCommand()
         {
             Parser parser = new Parser("a=1");

@@ -34,6 +34,7 @@
             {
                 case TokenType.Integer:
                     return new ConstantExpression(int.Parse(token.Value, CultureInfo.InvariantCulture));
+                
                 case TokenType.Name:
                     IExpression expr = new VariableExpression(token.Value);
                     token = this.NextToken();
