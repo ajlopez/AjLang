@@ -20,7 +20,7 @@
 
         public IEnumerable<ICommand> Commands { get { return this.commands; } }
 
-        public void Execute(Context context)
+        public object Execute(Context context)
         {
             throw new NotImplementedException();
         }

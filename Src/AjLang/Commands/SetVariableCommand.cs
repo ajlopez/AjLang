@@ -22,10 +22,11 @@
 
         public IExpression Expression { get { return this.expression; } }
 
-        public void Execute(Context context)
+        public object Execute(Context context)
         {
             object value = this.expression.Evaluate(context);
             context.SetValue(this.name, value);
+            return value;
         }
     }
 }

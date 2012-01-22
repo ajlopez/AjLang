@@ -16,8 +16,9 @@ namespace AjLang.Tests.Commands
         {
             Context context = new Context();
             SetVariableCommand command = new SetVariableCommand("One", new ConstantExpression(1));
-            command.Execute(context);
+            object result = command.Execute(context);
 
+            Assert.AreEqual(1, result);
             Assert.AreEqual(1, context.GetValue("One"));
         }
     }
