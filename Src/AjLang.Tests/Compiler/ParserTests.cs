@@ -71,7 +71,7 @@ namespace AjLang.Tests.Compiler
 
             CallExpression cexpr = (CallExpression)expr;
 
-            Assert.IsInstanceOfType(cexpr.Expression, typeof(VariableExpression));
+            Assert.IsInstanceOfType(cexpr.Expression, typeof(NameExpression));
             Assert.AreEqual(1, cexpr.Arguments.Count());
             Assert.IsInstanceOfType(cexpr.Arguments.First(), typeof(ConstantExpression));
         }

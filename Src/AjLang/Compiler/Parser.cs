@@ -36,14 +36,17 @@
                     return new ConstantExpression(int.Parse(token.Value, CultureInfo.InvariantCulture));
                 
                 case TokenType.Name:
-                    IExpression expr = new VariableExpression(token.Value);
+                    string name = token.Value;
+
                     token = this.NextToken();
 
                     if (token != null && token.Type != TokenType.Separator && token.Type != TokenType.Operator && token.Type != TokenType.EndOfLine)
                     {
                         this.PushToken(token);
-                        return new CallExpression(expr, new IExpression[] { this.ParseExpression() });
+                        return new CallExpression(new NameExpression(name), new IExpression[] { this.ParseExpression() });
                     }
+
+                    IExpression expr = new VariableExpression(name);
 
                     if (token != null)
                         this.PushToken(token);

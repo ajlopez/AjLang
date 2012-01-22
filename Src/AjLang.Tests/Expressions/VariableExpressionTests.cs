@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AjLang.Expressions;
+using AjLang.Commands;
+using AjLang.Methods;
 
 namespace AjLang.Tests.Expressions
 {
@@ -26,6 +28,25 @@ namespace AjLang.Tests.Expressions
             VariableExpression expr = new VariableExpression("One");
 
             Assert.AreEqual(1, expr.Evaluate(context));
+        }
+
+        [TestMethod]
+        public void EvaluateDefinedMethod()
+        {
+            Context context = new Context();
+            IList<ICommand> commands = new List<ICommand>();
+
+            commands.Add(new SetVariableCommand("a", new ConstantExpression(1)));
+            commands.Add(new SetVariableCommand("b", new ConstantExpression(2)));
+            commands.Add(new ExpressionCommand(new VariableExpression("b")));
+
+            DefinedMethod method = new DefinedMethod(commands);
+
+            context.SetValue("foo", method);
+
+            VariableExpression expr = new VariableExpression("foo");
+
+            Assert.AreEqual(2, expr.Evaluate(context));
         }
     }
 }

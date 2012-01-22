@@ -24,9 +24,7 @@ namespace AjLang.Tests.Expressions
 
             DefinedMethod method = new DefinedMethod(commands);
 
-            context.SetValue("foo", method);
-
-            CallExpression callexpr = new CallExpression(new VariableExpression("foo"), null);
+            CallExpression callexpr = new CallExpression(new ConstantExpression(method), null);
 
             object result = callexpr.Evaluate(context);
 

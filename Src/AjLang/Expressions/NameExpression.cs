@@ -6,11 +6,11 @@
     using System.Text;
     using AjLang.Language;
 
-    public class VariableExpression : IExpression
+    public class NameExpression : IExpression
     {
         private string name;
 
-        public VariableExpression(string name)
+        public NameExpression(string name)
         {
             this.name = name;
         }
@@ -19,12 +19,7 @@
 
         public object Evaluate(Context context)
         {
-            object result = context.GetValue(this.name);
-
-            if (result is ICallable)
-                result = ((ICallable)result).Call(context, null);
-
-            return result;
+            return context.GetValue(this.name);
         }
     }
 }
