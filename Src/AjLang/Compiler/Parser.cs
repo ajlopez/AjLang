@@ -77,6 +77,9 @@
         {
             Token token = this.NextToken();
 
+            while (token != null && token.Type == TokenType.EndOfLine)
+                token = this.NextToken();
+
             if (token == null)
                 return null;
 
@@ -88,6 +91,8 @@
                 this.PushToken(token);
                 return null;
             }
+
+            this.PushToken(token);
 
             IExpression expression = this.ParseExpression();
 
@@ -114,6 +119,7 @@
         private DefineCommand ParseDefineCommand()
         {
             string name = this.ParseName();
+            this.ParseEndOfCommand();
 
             IList<ICommand> commands = this.ParseCommands();
 
@@ -121,6 +127,8 @@
 
             if (end != "end")
                 throw new ParserException("'end' Expected");
+
+            this.ParseEndOfCommand();
 
             return new DefineCommand(name, commands);
         }
