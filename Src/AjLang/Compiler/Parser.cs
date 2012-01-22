@@ -75,12 +75,26 @@
 
         public ICommand ParseCommand()
         {
+            Token token = this.NextToken();
+
+            if (token == null)
+                return null;
+
+            if (token.Type == TokenType.Name && token.Value == "def")
+                return this.ParseDefineCommand();
+
+            if (token.Type == TokenType.Name && token.Value == "end")
+            {
+                this.PushToken(token);
+                return null;
+            }
+
             IExpression expression = this.ParseExpression();
 
             if (expression == null)
                 return null;
 
-            Token token = this.NextToken();
+            token = this.NextToken();
 
             if (token == null || token.Type == TokenType.EndOfLine || (token.Type == TokenType.Separator && token.Value == ";"))
                 return new ExpressionCommand(expression);
@@ -97,6 +111,20 @@
             throw new ParserException("Error in Parser");
         }
 
+        private DefineCommand ParseDefineCommand()
+        {
+            string name = this.ParseName();
+
+            IList<ICommand> commands = this.ParseCommands();
+
+            string end = this.ParseName();
+
+            if (end != "end")
+                throw new ParserException("'end' Expected");
+
+            return new DefineCommand(name, commands);
+        }
+
         private void ParseEndOfCommand()
         {
             Token token = this.NextToken();
@@ -111,6 +139,16 @@
                 return;
 
             throw new ParserException(string.Format("Unexpected '{0}'", token.Value));
+        }
+
+        private string ParseName()
+        {
+            Token token = this.NextToken();
+
+            if (token == null || token.Type != TokenType.Name)
+                throw new ParserException("Name expected");
+
+            return token.Value;
         }
 
         private Token NextToken()

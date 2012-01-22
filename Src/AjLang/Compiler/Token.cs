@@ -7,8 +7,8 @@
 
     public class Token
     {
-        public string value;
-        public TokenType type;
+        private string value;
+        private TokenType type;
 
         public Token(string value, TokenType type)
         {

@@ -91,6 +91,20 @@ namespace AjLang.Tests.Compiler
         }
 
         [TestMethod]
+        public void ParseSimpleCallAsCommandPrecededByNewLine()
+        {
+            Parser parser = new Parser("\r\nputs 1");
+            ICommand cmd = parser.ParseCommand();
+
+            Assert.IsNotNull(cmd);
+            Assert.IsInstanceOfType(cmd, typeof(ExpressionCommand));
+
+            ExpressionCommand ccmd = (ExpressionCommand)cmd;
+
+            Assert.IsInstanceOfType(ccmd.Expression, typeof(CallExpression));
+        }
+
+        [TestMethod]
         public void ParseTwoSimpleCallsAsCommands()
         {
             Parser parser = new Parser("puts 1\r\nputs 2\r\n");
@@ -242,6 +256,27 @@ namespace AjLang.Tests.Compiler
             cexpr = (ConstantExpression)scommand.Expression;
 
             Assert.AreEqual(1, cexpr.Value);
+
+            Assert.IsNull(parser.ParseCommand());
+        }
+
+        [TestMethod]
+        public void ParseSimpleDefineCommand()
+        {
+            Parser parser = new Parser("def foo\r\na=1\r\nb=1\r\nend\r\n");
+            ICommand command = parser.ParseCommand();
+
+            Assert.IsNotNull(command);
+            Assert.IsInstanceOfType(command, typeof(DefineCommand));
+
+            DefineCommand defcommand = (DefineCommand)command;
+
+            Assert.AreEqual("foo", defcommand.Name);
+
+            IEnumerable<ICommand> commands = defcommand.Commands;
+
+            Assert.IsNotNull(commands);
+            Assert.AreEqual(2, commands.Count());
 
             Assert.IsNull(parser.ParseCommand());
         }
