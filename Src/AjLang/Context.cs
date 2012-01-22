@@ -7,7 +7,17 @@
 
     public class Context
     {
+        private Context parent;
         private Dictionary<string, object> values = new Dictionary<string, object>();
+
+        public Context()
+        {
+        }
+
+        public Context(Context parent)
+        {
+            this.parent = parent;
+        }
 
         public void SetValue(string name, object value)
         {
@@ -17,7 +27,10 @@
         public object GetValue(string name)
         {
             if (!this.values.ContainsKey(name))
-                return null;
+                if (this.parent != null)
+                    return this.parent.GetValue(name);
+                else
+                    return null;
             
             return this.values[name];
         }
