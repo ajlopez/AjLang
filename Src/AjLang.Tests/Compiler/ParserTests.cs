@@ -205,5 +205,45 @@ namespace AjLang.Tests.Compiler
 
             Assert.IsNull(parser.ParseCommand());
         }
+
+        [TestMethod]
+        public void ParseTwoCommands()
+        {
+            Parser parser = new Parser("a=1\r\nb=1");
+            IList<ICommand> commands = parser.ParseCommands();
+
+            Assert.IsNotNull(commands);
+            Assert.AreEqual(2, commands.Count);
+
+            ICommand command = commands[0];
+
+            Assert.IsNotNull(command);
+            Assert.IsInstanceOfType(command, typeof(SetVariableCommand));
+
+            SetVariableCommand scommand = (SetVariableCommand)command;
+
+            Assert.AreEqual("a", scommand.Name);
+            Assert.IsInstanceOfType(scommand.Expression, typeof(ConstantExpression));
+
+            ConstantExpression cexpr = (ConstantExpression)scommand.Expression;
+
+            Assert.AreEqual(1, cexpr.Value);
+
+            command = commands[1];
+
+            Assert.IsNotNull(command);
+            Assert.IsInstanceOfType(command, typeof(SetVariableCommand));
+
+            scommand = (SetVariableCommand)command;
+
+            Assert.AreEqual("b", scommand.Name);
+            Assert.IsInstanceOfType(scommand.Expression, typeof(ConstantExpression));
+
+            cexpr = (ConstantExpression)scommand.Expression;
+
+            Assert.AreEqual(1, cexpr.Value);
+
+            Assert.IsNull(parser.ParseCommand());
+        }
     }
 }

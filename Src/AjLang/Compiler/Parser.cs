@@ -57,6 +57,22 @@
             throw new ParserException(string.Format("Unexpected '{0}'", token.Value));
         }
 
+        public IList<ICommand> ParseCommands()
+        {
+            ICommand command = this.ParseCommand();
+
+            if (command == null)
+                return null;
+
+            IList<ICommand> commands = new List<ICommand>();
+            commands.Add(command);
+
+            while ((command = this.ParseCommand()) != null)
+                commands.Add(command);
+
+            return commands;
+        }
+
         public ICommand ParseCommand()
         {
             IExpression expression = this.ParseExpression();
