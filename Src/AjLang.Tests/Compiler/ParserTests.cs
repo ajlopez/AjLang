@@ -280,5 +280,28 @@ namespace AjLang.Tests.Compiler
 
             Assert.IsNull(parser.ParseCommand());
         }
+
+        [TestMethod]
+        public void ParseSimpleDefineCommandWithArguments()
+        {
+            Parser parser = new Parser("def foo(x, y)\r\na=x\r\nb=y\r\nend\r\n");
+            ICommand command = parser.ParseCommand();
+
+            Assert.IsNotNull(command);
+            Assert.IsInstanceOfType(command, typeof(DefineCommand));
+
+            DefineCommand defcommand = (DefineCommand)command;
+
+            Assert.AreEqual("foo", defcommand.Name);
+            Assert.IsNotNull(defcommand.ArgumentNames);
+            Assert.AreEqual(2, defcommand.ArgumentNames.Count());
+
+            IEnumerable<ICommand> commands = defcommand.Commands;
+
+            Assert.IsNotNull(commands);
+            Assert.AreEqual(2, commands.Count());
+
+            Assert.IsNull(parser.ParseCommand());
+        }
     }
 }

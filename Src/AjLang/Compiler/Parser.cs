@@ -122,6 +122,11 @@
         private DefineCommand ParseDefineCommand()
         {
             string name = this.ParseName();
+            IList<string> argnames = null;
+
+            if (this.TryParseToken("(", TokenType.Separator))
+                argnames = this.ParseArgumentNames();
+
             this.ParseEndOfCommand();
 
             IList<ICommand> commands = this.ParseCommands();
@@ -133,7 +138,7 @@
 
             this.ParseEndOfCommand();
 
-            return new DefineCommand(name, null, commands);
+            return new DefineCommand(name, argnames, commands);
         }
 
         private void ParseEndOfCommand()
@@ -160,6 +165,41 @@
                 throw new ParserException("Name expected");
 
             return token.Value;
+        }
+
+        private IList<string> ParseArgumentNames()
+        {
+            IList<string> argnames = new List<string>();
+
+            while (!this.TryParseToken(")", TokenType.Separator))
+            {
+                if (argnames.Count > 0)
+                    this.ParseToken(",", TokenType.Separator);
+
+                argnames.Add(this.ParseName());
+            }
+
+            return argnames;
+        }
+
+        private bool TryParseToken(string value, TokenType type)
+        {
+            Token token = this.NextToken();
+
+            if (token != null && token.Value == value && token.Type == type)
+                return true;
+
+            this.PushToken(token);
+
+            return false;
+        }
+
+        private void ParseToken(string value, TokenType type)
+        {
+            Token token = this.NextToken();
+
+            if (token == null || token.Value != value || token.Type != type)
+                throw new ParserException(string.Format("Expected '{0}'", value));
         }
 
         private Token NextToken()

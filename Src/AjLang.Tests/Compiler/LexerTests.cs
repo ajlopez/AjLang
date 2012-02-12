@@ -102,6 +102,38 @@ namespace AjLang.Tests.Compiler
         }
 
         [TestMethod]
+        public void GetCommaAsSeparator()
+        {
+            Lexer lexer = new Lexer(",");
+            Token token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(",", token.Value);
+            Assert.AreEqual(TokenType.Separator, token.Type);
+
+            Assert.IsNull(lexer.NextToken());
+        }
+
+        [TestMethod]
+        public void GetParentheses()
+        {
+            Lexer lexer = new Lexer("()");
+            Token token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual("(", token.Value);
+            Assert.AreEqual(TokenType.Separator, token.Type);
+
+            token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(")", token.Value);
+            Assert.AreEqual(TokenType.Separator, token.Type);
+
+            Assert.IsNull(lexer.NextToken());
+        }
+
+        [TestMethod]
         public void GetNewLineAsEndOfLine()
         {
             Lexer lexer = new Lexer("\n");
