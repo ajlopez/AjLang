@@ -20,8 +20,10 @@
         {
             if (arguments != null && arguments.Count > 0)
             {
-                writer.WriteLine(arguments[0]);
-                return arguments[0];
+                foreach (var argument in arguments)
+                    writer.WriteLine(argument);
+
+                return null;
             }
 
             writer.WriteLine();
