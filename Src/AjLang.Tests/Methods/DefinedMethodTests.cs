@@ -7,7 +7,7 @@ using AjLang.Methods;
 using AjLang.Commands;
 using AjLang.Expressions;
 
-namespace AjLang.Tests.Language
+namespace AjLang.Tests.Methods
 {
     [TestClass]
     public class DefinedMethodTests
@@ -22,7 +22,7 @@ namespace AjLang.Tests.Language
             commands.Add(new SetVariableCommand("b", new ConstantExpression(2)));
             commands.Add(new ExpressionCommand(new VariableExpression("b")));
 
-            DefinedMethod method = new DefinedMethod(commands);
+            DefinedMethod method = new DefinedMethod(null, commands);
 
             object result = method.Call(context, null);
 

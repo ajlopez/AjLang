@@ -22,7 +22,7 @@ namespace AjLang.Tests.Expressions
             commands.Add(new SetVariableCommand("b", new ConstantExpression(2)));
             commands.Add(new ExpressionCommand(new VariableExpression("b")));
 
-            DefinedMethod method = new DefinedMethod(commands);
+            DefinedMethod method = new DefinedMethod(null, commands);
 
             CallExpression callexpr = new CallExpression(new ConstantExpression(method), null);
 

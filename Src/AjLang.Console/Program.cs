@@ -14,7 +14,7 @@ namespace AjLang.Console
         {
             Lexer lexer = new Lexer(System.Console.In);
             Context context = new Context();
-            context.SetValue("puts", new Puts());
+            context.SetValue("puts", new Puts(System.Console.Out));
             Parser parser = new Parser(lexer);
 
             for (ICommand cmd = parser.ParseCommand(); cmd != null; cmd = parser.ParseCommand())

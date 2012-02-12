@@ -133,7 +133,7 @@
 
             this.ParseEndOfCommand();
 
-            return new DefineCommand(name, commands);
+            return new DefineCommand(name, null, commands);
         }
 
         private void ParseEndOfCommand()

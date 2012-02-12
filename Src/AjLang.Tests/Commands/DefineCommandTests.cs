@@ -20,7 +20,7 @@ namespace AjLang.Tests.Commands
             commands.Add(new SetVariableCommand("a", new ConstantExpression(1)));
             commands.Add(new SetVariableCommand("b", new ConstantExpression(2)));
 
-            DefineCommand command = new DefineCommand("foo", commands);
+            DefineCommand command = new DefineCommand("foo", null, commands);
 
             Assert.AreEqual("foo", command.Name);
             Assert.AreEqual(commands, command.Commands);
@@ -36,7 +36,7 @@ namespace AjLang.Tests.Commands
             commands.Add(new SetVariableCommand("b", new ConstantExpression(2)));
             commands.Add(new ExpressionCommand(new VariableExpression("b")));
 
-            DefineCommand command = new DefineCommand("foo", commands);
+            DefineCommand command = new DefineCommand("foo", null, commands);
 
             object result = command.Execute(context);
 

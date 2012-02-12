@@ -48,7 +48,7 @@
     <Compile Include="Expressions\ConstantExpressionTests.cs" />
     <Compile Include="Expressions\NameExpressionTests.cs" />
     <Compile Include="Expressions\VariableExpressionTests.cs" />
-    <Compile Include="Language\DefinedMethodTests.cs" />
+    <Compile Include="Methods\DefinedMethodTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
