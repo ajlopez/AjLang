@@ -77,6 +77,39 @@ namespace AjLang.Tests.Compiler
         }
 
         [TestMethod]
+        public void ParseSimpleCallWithParenthesis()
+        {
+            Parser parser = new Parser("puts(1)");
+            IExpression expr = parser.ParseExpression();
+
+            Assert.IsNotNull(expr);
+            Assert.IsInstanceOfType(expr, typeof(CallExpression));
+
+            CallExpression cexpr = (CallExpression)expr;
+
+            Assert.IsInstanceOfType(cexpr.Expression, typeof(NameExpression));
+            Assert.AreEqual(1, cexpr.Arguments.Count());
+            Assert.IsInstanceOfType(cexpr.Arguments.First(), typeof(ConstantExpression));
+        }
+
+        [TestMethod]
+        public void ParseSimpleCallWithParenthesisAndTwoArguments()
+        {
+            Parser parser = new Parser("puts(a, b)");
+            IExpression expr = parser.ParseExpression();
+
+            Assert.IsNotNull(expr);
+            Assert.IsInstanceOfType(expr, typeof(CallExpression));
+
+            CallExpression cexpr = (CallExpression)expr;
+
+            Assert.IsInstanceOfType(cexpr.Expression, typeof(NameExpression));
+            Assert.AreEqual(2, cexpr.Arguments.Count());
+            Assert.IsInstanceOfType(cexpr.Arguments.First(), typeof(VariableExpression));
+            Assert.IsInstanceOfType(cexpr.Arguments.Skip(1).First(), typeof(VariableExpression));
+        }
+
+        [TestMethod]
         public void ParseSimpleCallAsCommand()
         {
             Parser parser = new Parser("puts 1");

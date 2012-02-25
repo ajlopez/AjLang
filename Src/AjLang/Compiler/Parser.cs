@@ -46,6 +46,12 @@
                         return new CallExpression(new NameExpression(name), new IExpression[] { this.ParseExpression() });
                     }
 
+                    if (token != null && token.Type == TokenType.Separator && token.Type == TokenType.Separator && token.Value == "(")
+                    {
+                        this.PushToken(token);
+                        return new CallExpression(new NameExpression(name), this.ParseArguments());
+                    }
+
                     IExpression expr = new VariableExpression(name);
 
                     if (token != null)
@@ -117,6 +123,22 @@
             }
 
             throw new ParserException("Error in Parser");
+        }
+
+        private IEnumerable<IExpression> ParseArguments()
+        {
+            IList<IExpression> arguments = new List<IExpression>();
+
+            this.ParseToken("(", TokenType.Separator);
+
+            while (!this.TryParseToken(")", TokenType.Separator))
+            {
+                if (arguments.Count > 0)
+                    this.ParseToken(",", TokenType.Separator);
+                arguments.Add(this.ParseExpression());
+            }
+
+            return arguments;
         }
 
         private DefineCommand ParseDefineCommand()
