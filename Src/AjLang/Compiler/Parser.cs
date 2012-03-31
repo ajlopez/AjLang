@@ -160,7 +160,7 @@
 
             this.ParseEndOfCommand();
 
-            return new DefineCommand(name, argnames, commands);
+            return new DefineCommand(name, argnames, new CompositeCommand(commands));
         }
 
         private void ParseEndOfCommand()

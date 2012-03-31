@@ -34,11 +34,13 @@ namespace AjLang.Tests.Expressions
         public void EvaluateDefinedMethod()
         {
             Context context = new Context();
-            IList<ICommand> commands = new List<ICommand>();
+            IList<ICommand> commandlist = new List<ICommand>();
 
-            commands.Add(new SetVariableCommand("a", new ConstantExpression(1)));
-            commands.Add(new SetVariableCommand("b", new ConstantExpression(2)));
-            commands.Add(new ExpressionCommand(new NameExpression("b")));
+            commandlist.Add(new SetVariableCommand("a", new ConstantExpression(1)));
+            commandlist.Add(new SetVariableCommand("b", new ConstantExpression(2)));
+            commandlist.Add(new ExpressionCommand(new NameExpression("b")));
+
+            CompositeCommand commands = new CompositeCommand(commandlist);
 
             DefinedMethod method = new DefinedMethod(null, commands);
 

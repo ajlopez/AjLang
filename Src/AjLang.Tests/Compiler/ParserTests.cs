@@ -305,11 +305,13 @@ namespace AjLang.Tests.Compiler
             DefineCommand defcommand = (DefineCommand)command;
 
             Assert.AreEqual("foo", defcommand.Name);
+            Assert.IsNotNull(defcommand.Command);
+            Assert.IsInstanceOfType(defcommand.Command, typeof(CompositeCommand));
 
-            IEnumerable<ICommand> commands = defcommand.Commands;
+            CompositeCommand commands = (CompositeCommand) defcommand.Command;
 
-            Assert.IsNotNull(commands);
-            Assert.AreEqual(2, commands.Count());
+            Assert.IsNotNull(commands.Commands);
+            Assert.AreEqual(2, commands.Commands.Count());
 
             Assert.IsNull(parser.ParseCommand());
         }
@@ -329,10 +331,13 @@ namespace AjLang.Tests.Compiler
             Assert.IsNotNull(defcommand.ArgumentNames);
             Assert.AreEqual(2, defcommand.ArgumentNames.Count());
 
-            IEnumerable<ICommand> commands = defcommand.Commands;
+            Assert.IsNotNull(defcommand.Command);
+            Assert.IsInstanceOfType(defcommand.Command, typeof(CompositeCommand));
 
-            Assert.IsNotNull(commands);
-            Assert.AreEqual(2, commands.Count());
+            CompositeCommand commands = (CompositeCommand) defcommand.Command;
+
+            Assert.IsNotNull(commands.Commands);
+            Assert.AreEqual(2, commands.Commands.Count());
 
             Assert.IsNull(parser.ParseCommand());
         }

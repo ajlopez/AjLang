@@ -10,24 +10,24 @@
     {
         private string name;
         private IList<string> argnames;
-        private IList<ICommand> commands;
+        private ICommand command;
 
-        public DefineCommand(string name, IList<string> argnames, IList<ICommand> commands)
+        public DefineCommand(string name, IList<string> argnames, ICommand command)
         {
             this.name = name;
             this.argnames = argnames;
-            this.commands = commands;
+            this.command = command;
         }
 
         public string Name { get { return this.name; } }
 
         public IEnumerable<string> ArgumentNames { get { return this.argnames; } }
 
-        public IEnumerable<ICommand> Commands { get { return this.commands; } }
+        public ICommand Command { get { return this.command; } }
 
         public object Execute(Context context)
         {
-            context.SetValue(this.name, new DefinedMethod(this.argnames, this.commands));
+            context.SetValue(this.name, new DefinedMethod(this.argnames, this.command));
             return null;
         }
     }

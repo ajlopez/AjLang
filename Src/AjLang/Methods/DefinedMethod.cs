@@ -9,14 +9,14 @@
 
     public class DefinedMethod : ICallable
     {
-        private IEnumerable<ICommand> commands;
+        private ICommand command;
         private IEnumerable<string> argnames;
         private int arity;
 
-        public DefinedMethod(IEnumerable<string> argnames, IEnumerable<ICommand> commands)
+        public DefinedMethod(IEnumerable<string> argnames, ICommand command)
         {
             this.argnames = argnames;
-            this.commands = commands;
+            this.command = command;
 
             if (argnames != null)
                 this.arity = argnames.Count();
@@ -32,8 +32,7 @@
             object result = null;
             Context newctx = new Context(context);
 
-            foreach (var command in this.commands)
-                result = command.Execute(newctx);
+           result = this.command.Execute(newctx);
 
             return result;
         }

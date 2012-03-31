@@ -15,26 +15,30 @@ namespace AjLang.Tests.Commands
         [TestMethod]
         public void DefineCommand()
         {
-            IList<ICommand> commands = new List<ICommand>();
+            IList<ICommand> commandlist = new List<ICommand>();
 
-            commands.Add(new SetVariableCommand("a", new ConstantExpression(1)));
-            commands.Add(new SetVariableCommand("b", new ConstantExpression(2)));
+            commandlist.Add(new SetVariableCommand("a", new ConstantExpression(1)));
+            commandlist.Add(new SetVariableCommand("b", new ConstantExpression(2)));
+
+            CompositeCommand commands = new CompositeCommand(commandlist);
 
             DefineCommand command = new DefineCommand("foo", null, commands);
 
             Assert.AreEqual("foo", command.Name);
-            Assert.AreEqual(commands, command.Commands);
+            Assert.AreEqual(commands, command.Command);
         }
 
         [TestMethod]
         public void ExecuteDefineCommand()
         {
             Context context = new Context();
-            IList<ICommand> commands = new List<ICommand>();
+            IList<ICommand> commandlist = new List<ICommand>();
 
-            commands.Add(new SetVariableCommand("a", new ConstantExpression(1)));
-            commands.Add(new SetVariableCommand("b", new ConstantExpression(2)));
-            commands.Add(new ExpressionCommand(new VariableExpression("b")));
+            commandlist.Add(new SetVariableCommand("a", new ConstantExpression(1)));
+            commandlist.Add(new SetVariableCommand("b", new ConstantExpression(2)));
+            commandlist.Add(new ExpressionCommand(new VariableExpression("b")));
+
+            CompositeCommand commands = new CompositeCommand(commandlist);
 
             DefineCommand command = new DefineCommand("foo", null, commands);
 
