@@ -64,6 +64,7 @@
     <Compile Include="Expressions\IExpression.cs" />
     <Compile Include="Expressions\VariableExpression.cs" />
     <Compile Include="Language\ICallable.cs" />
+    <Compile Include="Language\Predicates.cs" />
     <Compile Include="Methods\DefinedMethod.cs" />
     <Compile Include="Methods\Puts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

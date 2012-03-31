@@ -36,6 +36,8 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ForCommandTests.cs" />
@@ -49,6 +51,7 @@
     <Compile Include="Expressions\ConstantExpressionTests.cs" />
     <Compile Include="Expressions\NameExpressionTests.cs" />
     <Compile Include="Expressions\VariableExpressionTests.cs" />
+    <Compile Include="Language\PredicateTests.cs" />
     <Compile Include="Methods\DefinedMethodTests.cs" />
     <Compile Include="Methods\PutTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
