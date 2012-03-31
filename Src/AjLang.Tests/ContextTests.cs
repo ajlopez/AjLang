@@ -12,25 +12,25 @@ namespace AjLang.Tests
         [TestMethod]
         public void GetUndefinedValue()
         {
-            Context environment = new Context();
-            Assert.IsNull(environment.GetValue("Foo"));
+            Context context = new Context();
+            Assert.IsNull(context.GetValue("Foo"));
         }
 
         [TestMethod]
         public void SetAndGetValue()
         {
-            Context environment = new Context();
-            environment.SetValue("One", 1);
-            Assert.AreEqual(1, environment.GetValue("One"));
+            Context context = new Context();
+            context.SetValue("One", 1);
+            Assert.AreEqual(1, context.GetValue("One"));
         }
 
         [TestMethod]
         public void SetAndGetValueWithParent()
         {
             Context parent = new Context();
-            Context environment = new Context(parent);
-            environment.SetValue("One", 1);
-            Assert.AreEqual(1, environment.GetValue("One"));
+            Context context = new Context(parent);
+            context.SetValue("One", 1);
+            Assert.AreEqual(1, context.GetValue("One"));
             Assert.IsNull(parent.GetValue("One"));
         }
 
@@ -38,9 +38,9 @@ namespace AjLang.Tests
         public void GetValueFromParent()
         {
             Context parent = new Context();
-            Context environment = new Context(parent);
+            Context context = new Context(parent);
             parent.SetValue("One", 1);
-            Assert.AreEqual(1, environment.GetValue("One"));
+            Assert.AreEqual(1, context.GetValue("One"));
         }
     }
 }
