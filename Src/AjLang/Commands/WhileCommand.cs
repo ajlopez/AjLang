@@ -11,22 +11,22 @@
 
     public class WhileCommand : ICommand
     {
-        private IExpression expression;
+        private IExpression condition;
         private ICommand command;
 
-        public WhileCommand(IExpression expression, ICommand command)
+        public WhileCommand(IExpression condition, ICommand command)
         {
-            this.expression = expression;
+            this.condition = condition;
             this.command = command;
         }
 
-        public IExpression Expression { get { return this.expression; } }
+        public IExpression Condition { get { return this.condition; } }
 
         public ICommand Command { get { return this.command; } }
 
         public object Execute(Context context)
         {
-            while (Predicates.IsTrue(this.expression.Evaluate(context)))
+            while (Predicates.IsTrue(this.condition.Evaluate(context)))
                 this.command.Execute(context);
 
             return null;

@@ -7,9 +7,15 @@
     using AjLang.Expressions;
     using System.Globalization;
     using AjLang.Commands;
+    using AjLang.Language;
 
     public class Parser
     {
+        private static string[] reserved = new string[] 
+        {
+            "if", "while", "for", "then", "else", "end"
+        };
+
         private Lexer lexer;
         private Stack<Token> tokens = new Stack<Token>();
 
@@ -25,6 +31,26 @@
 
         public IExpression ParseExpression()
         {
+            var expression = this.ParseSimpleExpression();
+
+            if (expression == null)
+                return null;
+
+            Token token = this.NextToken();
+
+            if (token == null)
+                return expression;
+
+            if (token.Type == TokenType.Operator && token.Value == "==")
+                return new CompareExpression(ComparisonOperator.Equal, expression, this.ParseExpression());
+
+            this.PushToken(token);
+
+            return expression;
+        }
+
+        private IExpression ParseSimpleExpression()
+        {
             Token token = this.NextToken();
 
             if (token == null)
@@ -39,6 +65,12 @@
                     string name = token.Value;
 
                     token = this.NextToken();
+
+                    if (IsReservedWord(token))
+                    {
+                        this.PushToken(token);
+                        return new VariableExpression(name);
+                    }
 
                     if (token != null && token.Type != TokenType.Separator && token.Type != TokenType.Operator && token.Type != TokenType.EndOfLine)
                     {
@@ -95,7 +127,13 @@
             if (token.Type == TokenType.Name && token.Value == "def")
                 return this.ParseDefineCommand();
 
-            if (token.Type == TokenType.Name && token.Value == "end")
+            if (token.Type == TokenType.Name && token.Value == "if")
+                return this.ParseIfCommand();
+
+            if (token.Type == TokenType.Name && token.Value == "while")
+                return this.ParseWhileCommand();
+
+            if (token.Type == TokenType.Name && (token.Value == "end" || token.Value == "else"))
             {
                 this.PushToken(token);
                 return null;
@@ -163,6 +201,32 @@
             return new DefineCommand(name, argnames, new CompositeCommand(commands));
         }
 
+        private IfCommand ParseIfCommand()
+        {
+            IExpression condition = this.ParseExpression();
+            if (!this.TryParseToken("then", TokenType.Name))
+                this.ParseEndOfCommand();
+            ICommand thencommand = new CompositeCommand(this.ParseCommands());
+            ICommand elsecommand = null;
+
+            if (this.TryParseToken("else", TokenType.Name))
+                elsecommand = new CompositeCommand(this.ParseCommands());
+
+            this.ParseToken("end", TokenType.Name);
+
+            return new IfCommand(condition, thencommand, elsecommand);
+        }
+
+        private WhileCommand ParseWhileCommand()
+        {
+            IExpression condition = this.ParseExpression();
+            this.ParseEndOfCommand();
+            ICommand command = new CompositeCommand(this.ParseCommands());
+            this.ParseToken("end", TokenType.Name);
+
+            return new WhileCommand(condition, command);
+        }
+
         private void ParseEndOfCommand()
         {
             Token token = this.NextToken();
@@ -175,6 +239,12 @@
 
             if (token.Type == TokenType.EndOfLine)
                 return;
+
+            if (token.Type == TokenType.Name && token.Value == "end")
+            {
+                this.PushToken(token);
+                return;
+            }
 
             throw new ParserException(string.Format("Unexpected '{0}'", token.Value));
         }
@@ -235,6 +305,14 @@
         private void PushToken(Token token)
         {
             this.tokens.Push(token);
+        }
+
+        private static bool IsReservedWord(Token token)
+        {
+            if (token != null && token.Type == TokenType.Name && reserved.Contains(token.Value))
+                return true;
+
+            return false;
         }
     }
 }

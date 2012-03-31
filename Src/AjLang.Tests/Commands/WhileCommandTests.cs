@@ -30,7 +30,7 @@ namespace AjLang.Tests.Commands
             var result = whilecommand.Execute(context);
 
             Assert.IsNull(result);
-            Assert.IsNotNull(whilecommand.Expression);
+            Assert.IsNotNull(whilecommand.Condition);
             Assert.IsNotNull(whilecommand.Command);
             Assert.AreEqual(4, context.GetValue("k"));
             Assert.AreEqual(10, context.GetValue("a"));

@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AjLang.Compiler;
 using AjLang.Expressions;
 using AjLang.Commands;
+using AjLang.Language;
 
 namespace AjLang.Tests.Compiler
 {
@@ -74,6 +75,24 @@ namespace AjLang.Tests.Compiler
             Assert.IsInstanceOfType(cexpr.Expression, typeof(NameExpression));
             Assert.AreEqual(1, cexpr.Arguments.Count());
             Assert.IsInstanceOfType(cexpr.Arguments.First(), typeof(ConstantExpression));
+        }
+
+        [TestMethod]
+        public void ParseEqualsOperator()
+        {
+            Parser parser = new Parser("a == 1");
+            IExpression expr = parser.ParseExpression();
+
+            Assert.IsNotNull(expr);
+            Assert.IsInstanceOfType(expr, typeof(CompareExpression));
+
+            CompareExpression cexpr = (CompareExpression)expr;
+
+            Assert.AreEqual(ComparisonOperator.Equal, cexpr.Operation);
+            Assert.IsInstanceOfType(cexpr.LeftExpression, typeof(VariableExpression));
+            Assert.IsInstanceOfType(cexpr.RightExpression, typeof(ConstantExpression));
+
+            Assert.IsNull(parser.ParseExpression());
         }
 
         [TestMethod]
@@ -338,6 +357,125 @@ namespace AjLang.Tests.Compiler
 
             Assert.IsNotNull(commands.Commands);
             Assert.AreEqual(2, commands.Commands.Count());
+
+            Assert.IsNull(parser.ParseCommand());
+        }
+
+        [TestMethod]
+        public void ParseIfCommandWithOneLineThen()
+        {
+            Parser parser = new Parser("if a then b = a end");
+            ICommand command = parser.ParseCommand();
+
+            Assert.IsNotNull(command);
+            Assert.IsInstanceOfType(command, typeof(IfCommand));
+
+            IfCommand ifcommand = (IfCommand)command;
+
+            Assert.IsNotNull(ifcommand.Condition);
+            Assert.IsNotNull(ifcommand.ThenCommand);
+            Assert.IsNull(ifcommand.ElseCommand);
+
+            Assert.IsInstanceOfType(ifcommand.Condition, typeof(VariableExpression));
+
+            Assert.IsNull(parser.ParseCommand());
+        }
+
+        [TestMethod]
+        public void ParseIfCommandWithOneLine()
+        {
+            Parser parser = new Parser("if a; b = a end");
+            ICommand command = parser.ParseCommand();
+
+            Assert.IsNotNull(command);
+            Assert.IsInstanceOfType(command, typeof(IfCommand));
+
+            IfCommand ifcommand = (IfCommand)command;
+
+            Assert.IsNotNull(ifcommand.Condition);
+            Assert.IsNotNull(ifcommand.ThenCommand);
+            Assert.IsNull(ifcommand.ElseCommand);
+
+            Assert.IsInstanceOfType(ifcommand.Condition, typeof(VariableExpression));
+
+            Assert.IsNull(parser.ParseCommand());
+        }
+
+        [TestMethod]
+        public void ParseIfCommandWithMultipleLine()
+        {
+            Parser parser = new Parser("if a \r\n b = a\r\n end");
+            ICommand command = parser.ParseCommand();
+
+            Assert.IsNotNull(command);
+            Assert.IsInstanceOfType(command, typeof(IfCommand));
+
+            IfCommand ifcommand = (IfCommand)command;
+
+            Assert.IsNotNull(ifcommand.Condition);
+            Assert.IsNotNull(ifcommand.ThenCommand);
+            Assert.IsNull(ifcommand.ElseCommand);
+
+            Assert.IsInstanceOfType(ifcommand.Condition, typeof(VariableExpression));
+
+            Assert.IsNull(parser.ParseCommand());
+        }
+
+        [TestMethod]
+        public void ParseIfCommandWithThenMultipleLine()
+        {
+            Parser parser = new Parser("if a then\r\n b = a\r\n end");
+            ICommand command = parser.ParseCommand();
+
+            Assert.IsNotNull(command);
+            Assert.IsInstanceOfType(command, typeof(IfCommand));
+
+            IfCommand ifcommand = (IfCommand)command;
+
+            Assert.IsNotNull(ifcommand.Condition);
+            Assert.IsNotNull(ifcommand.ThenCommand);
+            Assert.IsNull(ifcommand.ElseCommand);
+
+            Assert.IsInstanceOfType(ifcommand.Condition, typeof(VariableExpression));
+
+            Assert.IsNull(parser.ParseCommand());
+        }
+
+        [TestMethod]
+        public void ParseIfCommandWithMultipleLineAndElse()
+        {
+            Parser parser = new Parser("if a \r\n b = a\r\n else \r\n b = 1\r\n end");
+            ICommand command = parser.ParseCommand();
+
+            Assert.IsNotNull(command);
+            Assert.IsInstanceOfType(command, typeof(IfCommand));
+
+            IfCommand ifcommand = (IfCommand)command;
+
+            Assert.IsNotNull(ifcommand.Condition);
+            Assert.IsNotNull(ifcommand.ThenCommand);
+            Assert.IsNotNull(ifcommand.ElseCommand);
+
+            Assert.IsInstanceOfType(ifcommand.Condition, typeof(VariableExpression));
+
+            Assert.IsNull(parser.ParseCommand());
+        }
+
+        [TestMethod]
+        public void ParseWhileCommandMultiline()
+        {
+            Parser parser = new Parser("while a \r\n a = b\r\nend");
+            ICommand command = parser.ParseCommand();
+
+            Assert.IsNotNull(command);
+            Assert.IsInstanceOfType(command, typeof(WhileCommand));
+
+            WhileCommand whilecommand = (WhileCommand)command;
+
+            Assert.IsNotNull(whilecommand.Condition);
+            Assert.IsNotNull(whilecommand.Command);
+
+            Assert.IsInstanceOfType(whilecommand.Condition, typeof(VariableExpression));
 
             Assert.IsNull(parser.ParseCommand());
         }
