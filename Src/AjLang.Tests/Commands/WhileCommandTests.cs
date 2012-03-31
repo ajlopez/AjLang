@@ -14,25 +14,6 @@ namespace AjLang.Tests.Commands
     public class WhileCommandTests
     {
         [TestMethod]
-        public void CreateAndExecuteForCommand()
-        {
-            var command = new SetVariableCommand("a", new VariableExpression("k"));
-            var forcommand = new ForCommand("k", new ConstantExpression((new int[] { 1, 2, 3 })), command);
-
-            Context context = new Context();
-            context.SetValue("a", 0);
-
-            var result = forcommand.Execute(context);
-
-            Assert.IsNull(result);
-            Assert.AreEqual("k", forcommand.VariableName);
-            Assert.IsNotNull(forcommand.Expression);
-            Assert.IsNotNull(forcommand.Command);
-            Assert.AreEqual(3, context.GetValue("k"));
-            Assert.AreEqual(3, context.GetValue("a"));
-        }
-
-        [TestMethod]
         public void WhileWithAddExpression()
         {
             var expression = new CompareExpression(ComparisonOperator.Less, new VariableExpression("a"), new ConstantExpression(10));
