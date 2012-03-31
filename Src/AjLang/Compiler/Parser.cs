@@ -133,6 +133,9 @@
             if (token.Type == TokenType.Name && token.Value == "while")
                 return this.ParseWhileCommand();
 
+            if (token.Type == TokenType.Name && token.Value == "for")
+                return this.ParseForCommand();
+
             if (token.Type == TokenType.Name && (token.Value == "end" || token.Value == "else"))
             {
                 this.PushToken(token);
@@ -191,14 +194,33 @@
 
             IList<ICommand> commands = this.ParseCommands();
 
+            this.ParseEnd();
+
+            return new DefineCommand(name, argnames, new CompositeCommand(commands));
+        }
+
+        private ForCommand ParseForCommand()
+        {
+            string name = this.ParseName();
+            this.ParseToken("in", TokenType.Name);
+            IExpression expression = this.ParseExpression();
+            this.ParseEndOfCommand();
+
+            IList<ICommand> commands = this.ParseCommands();
+
+            this.ParseEnd();
+
+            return new ForCommand(name, expression, new CompositeCommand(commands));
+        }
+
+        private void ParseEnd()
+        {
             string end = this.ParseName();
 
             if (end != "end")
                 throw new ParserException("'end' Expected");
 
             this.ParseEndOfCommand();
-
-            return new DefineCommand(name, argnames, new CompositeCommand(commands));
         }
 
         private IfCommand ParseIfCommand()
@@ -212,7 +234,7 @@
             if (this.TryParseToken("else", TokenType.Name))
                 elsecommand = new CompositeCommand(this.ParseCommands());
 
-            this.ParseToken("end", TokenType.Name);
+            this.ParseEnd();
 
             return new IfCommand(condition, thencommand, elsecommand);
         }

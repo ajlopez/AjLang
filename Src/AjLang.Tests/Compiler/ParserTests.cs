@@ -479,5 +479,23 @@ namespace AjLang.Tests.Compiler
 
             Assert.IsNull(parser.ParseCommand());
         }
+
+        [TestMethod]
+        public void ParseForCommandMultiline()
+        {
+            Parser parser = new Parser("for k in a \r\n b = k\r\nend");
+            ICommand command = parser.ParseCommand();
+
+            Assert.IsNotNull(command);
+            Assert.IsInstanceOfType(command, typeof(ForCommand));
+
+            ForCommand forcommand = (ForCommand)command;
+
+            Assert.AreEqual("k", forcommand.VariableName);
+            Assert.IsNotNull(forcommand.Expression);
+            Assert.IsNotNull(forcommand.Command);
+
+            Assert.IsNull(parser.ParseCommand());
+        }
     }
 }
