@@ -11,7 +11,7 @@ using AjLang.Language;
 namespace AjLang.Tests.Commands
 {
     [TestClass]
-    public class ForCommandTests
+    public class WhileCommandTests
     {
         [TestMethod]
         public void CreateAndExecuteForCommand()
@@ -33,19 +33,24 @@ namespace AjLang.Tests.Commands
         }
 
         [TestMethod]
-        public void ForWithAddExpression()
+        public void WhileWithAddExpression()
         {
-            var command = new SetVariableCommand("a", new ArithmeticBinaryExpression(ArithmeticOperator.Add, new VariableExpression("k"), new VariableExpression("a")));
-            var forcommand = new ForCommand("k", new ConstantExpression(new int[] { 1, 2, 3, 4 }), command);
+            var expression = new CompareExpression(ComparisonOperator.Less, new VariableExpression("a"), new ConstantExpression(10));
+            var inccommand = new SetVariableCommand("k", new ArithmeticBinaryExpression(ArithmeticOperator.Add, new VariableExpression("k"), new ConstantExpression(1)));
+            var addcommand = new SetVariableCommand("a", new ArithmeticBinaryExpression(ArithmeticOperator.Add, new VariableExpression("k"), new VariableExpression("a")));
+            var command = new CompositeCommand(new ICommand[] { inccommand, addcommand });
+            var whilecommand = new WhileCommand(expression, command);
 
             Context context = new Context();
 
-            var result = forcommand.Execute(context);
+            context.SetValue("a", 0);
+            context.SetValue("k", 0);
+
+            var result = whilecommand.Execute(context);
 
             Assert.IsNull(result);
-            Assert.AreEqual("k", forcommand.VariableName);
-            Assert.IsNotNull(forcommand.Expression);
-            Assert.IsNotNull(forcommand.Command);
+            Assert.IsNotNull(whilecommand.Expression);
+            Assert.IsNotNull(whilecommand.Command);
             Assert.AreEqual(4, context.GetValue("k"));
             Assert.AreEqual(10, context.GetValue("a"));
         }
